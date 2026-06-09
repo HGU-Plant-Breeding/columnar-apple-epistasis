@@ -1,8 +1,7 @@
 ---
 title: "Pipeline: non-additive genetics of tree architecture in columnar apples"
 author: "Nuri Güvencli"
-date: "`r Sys.Date()`"
-output: html_document
+date: "09.06.2026"
 ---
 
 ## Overview
