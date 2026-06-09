@@ -1,0 +1,5 @@
+"Trait","Year","Component","Variance","Prop"
+"tr_brz_prop",2017,"Additive",0.0187679695443769,0.311209463625708
+"tr_brz_prop",2017,"Field spatial",0.0124693028583062,0.206765310714319
+"tr_brz_prop",2017,"Residual",0.0290692790939294,0.482025225659972
+"tr_brz_prop",2017,"AR1(rep)",0.136827838238892,NA

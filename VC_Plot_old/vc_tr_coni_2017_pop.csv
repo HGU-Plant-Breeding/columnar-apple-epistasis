@@ -1,0 +1,5 @@
+"Trait","Year","Component","Variance","Prop"
+"tr_coni",2017,"Additive",1.84563049407174e-06,0.292214202223368
+"tr_coni",2017,"Field spatial",8.24580523977852e-07,0.130553835535917
+"tr_coni",2017,"Residual",3.64580812143406e-06,0.577231962240715
+"tr_coni",2017,"AR1(rep)",0.338625251476134,NA
