@@ -1,0 +1,33 @@
+---
+title: "Pipeline: non-additive genetics of tree architecture in columnar apples"
+author: "Nuri Güvencli"
+date: "09.06.2026"
+---
+
+## Overview
+This repository contains the R analysis workflow used in the study: "Epistatic interactions underlie phenotypic diversity of tree architecture in columnar apple." 
+The workflow processes tree architectural data and SNP genotype data to partition genetic variance and map epistatic interactions for five tree architecture traits: 
+Internode Length (INL), Long Shoot Angle (LSA), Trunk Branching Zone Proportion (TBZP), Trunk Conicity (TC), and Trunk Length (TL).
+
+## Pipeline Workflow:
+
+* Outlier removal from raw phenotypic data.
+* Estimation of breeding values (BLUPs) and narrow-sense heritability (h2) using GBLUP model with spatial field corrections.
+* Principal Component Analysis (PCA) of estimated breeding values.
+* Comparative assessment of h2 models (e.g., impact of including the Co locus as a fixed effect).
+* GWAS (BLINK) performed on deregressed estimated breeding values (dGEBVs).
+* SNP × Co-locus epistatic interactions using Wald tests.
+* Generation of Circos plots for visual QTL mapping.
+* Estimation of genetic correlations (rg) across traits and years.
+* Visualization of data, (phenotype density distribution, correlation heatmaps, Variance component barplots, Genome-wide interaction map).
+
+## Project Structure
+To execute the pipeline, ensure your local directory is organized as follows:
+* `/SNP Chip`: Contains genomic input files (e.g., `GM_v11.csv`, `GT_filtered_numeric_transposed.csv`).
+* `/Lidar/Single_trait_walkthrough`: Root directory for phenotypic data (`/outlier_removed_raw`) and subdirectories for specific model outputs (`/deregression_output`, `/MV5_Rg_output`, etc.).
+
+## Dependencies
+* **Core R Packages:** `asreml`, `ASRgenomics`, `GAPIT`, `BLINK`, `tidyverse`, `circlize`, `ComplexHeatmap`, `svglite`.
+
+---
+*For detailed information regarding statistical methodology, experimental design, and biological interpretation, please refer to the project manuscript.*
