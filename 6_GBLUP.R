@@ -77,7 +77,11 @@ print(wald.asreml(m_fit))
 # ──────────────────────────────────────────────────────────────────────────────
 # 7) Cullis h2 (single year)
 Gvar  <- as.numeric(vc["vm(Genotype, Ginv)", "component"])   # σ²_A
-predG <- predict(m_fit, classify = "Genotype", sed = TRUE)
+# genetic BLUP only: without only =, predict() adds the intercept and the averaged pop effect
+# (ASReml-R 4.2 Reference Manual, ch. 6.2, option "onlyuse"; in the R package the argument is "only")
+predG <- predict(m_fit, classify = "Genotype", only = "vm(Genotype, Ginv)", sed = TRUE)
+u_sol <- coef(m_fit)$random[paste0("vm(Genotype, Ginv)_", predG$pvals$Genotype), 1]
+stopifnot(abs(mean(predG$pvals$predicted.value - u_sol, na.rm = TRUE)) < 0.05 * sd(u_sol, na.rm = TRUE))
 
 # AVSED and h2 (use the 'mean' entry of avsed)
 AVSED     <- as.numeric(predG$avsed["mean"])
