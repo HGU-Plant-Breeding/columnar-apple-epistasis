@@ -49,8 +49,11 @@ names(df)[names(df) == TRAIT_FILE] <- TRAIT
 # ── 3) READ TRAIT-SPECIFIC GWAS FILE & APPLY FDR  ─────────────────────────────
 gwas <- read.csv(gwas_file, check.names = FALSE)
 gwas <- gwas %>% dplyr::select(SNP, Chr, Pos, P.value)
+chi_gc <- qchisq(gwas$P.value, 1, lower.tail = FALSE)   # genomic control: chi2 / lambda, lambda = median chi2 / 0.455
+gwas$P.value <- pchisq(chi_gc / max(1, median(chi_gc[is.finite(chi_gc)]) / qchisq(0.5, 1)), 1, lower.tail = FALSE)
 gwas$sgnf <- p.adjust(gwas$P.value, method = "BH")
 gwas_hits <- gwas %>% filter(sgnf < threshold)
+if (nrow(gwas_hits) > 30) gwas_hits <- gwas_hits %>% arrange(P.value) %>% head(30)   # joint model estimable with at most 30 SNPs
 n_hits    <- nrow(gwas_hits)
 gwas_hits; n_hits
 
@@ -165,7 +168,7 @@ fixed_terms <- c("pop", "co_loc")
   snp_terms    <- snp_model_names
   snp_co_terms <- paste0("co_loc:", snp_model_names)
   
-    snp_pairs <- t(combn(snp_model_names, 2))
+    snp_pairs <- if (length(snp_model_names) >= 2) t(combn(snp_model_names, 2)) else matrix(character(0), 0, 2)   # no pairs with a single SNP
     snp_pair_terms <- apply(
       snp_pairs, 1,
       function(x) paste0(x[1], ":", x[2]))

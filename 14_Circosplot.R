@@ -150,7 +150,10 @@ gwas_df <- gwas_df %>%
 
 gwas_sig <- gwas_df %>%
   group_by(Trait, Year) %>%
-  mutate(FDR_BH = p.adjust(P.value, method = "BH")) %>%
+  mutate(chi_GC = qchisq(P.value, 1, lower.tail = FALSE),   # genomic control: chi2 / lambda, lambda = median chi2 / 0.455
+         P_GC   = pchisq(chi_GC / max(1, median(chi_GC[is.finite(chi_GC)]) / qchisq(0.5, 1)), 1, lower.tail = FALSE),
+         FDR_BH = p.adjust(P_GC, method = "BH")) %>%
+  dplyr::select(-chi_GC) %>%
   ungroup() %>%
   filter(FDR_BH <= FDR_CUTOFF)
 
